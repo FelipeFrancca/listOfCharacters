@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Paper } from "@mui/material";
-import Swal from 'sweetalert2';
-import '../../../../assets/styles/peopleList.css';
+import Swal from "sweetalert2";
+import "../../../../assets/styles/peopleList.css";
+import "../../../../assets/styles/index.css"
 
 interface Character {
   name: string;
@@ -20,7 +21,6 @@ interface Character {
   starships: string[];
   created: string;
   edited: string;
-  url: string;
 }
 
 interface ApiResponse {
@@ -35,12 +35,13 @@ const PeopleList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios.get<ApiResponse>("https://swapi.dev/api/people")
-      .then(response => {
+    axios
+      .get<ApiResponse>("https://swapi.dev/api/people")
+      .then((response) => {
         setCharacters(response.data.results);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setLoading(false);
         Swal.fire("Erro na busca, tente novamente.");
@@ -49,8 +50,10 @@ const PeopleList: React.FC = () => {
 
   if (loading) {
     return (
-      <Box>
+      <Box className="flex justify-center items-center flex-col gap-2"
+      >
         <span className="loader"></span>
+        <h1 className="text-3xl font-bold">Caregando...</h1>
       </Box>
     );
   }
@@ -60,24 +63,54 @@ const PeopleList: React.FC = () => {
       <Paper id="paper">
         <h1>Lista de personagens</h1>
         <ul>
-          {characters.map(character => (
+          {characters.map((character) => (
             <li key={character.name}>
               <h2>{character.name}</h2>
-              <p><strong>Height:</strong> {character.height}</p>
-              <p><strong>Mass:</strong> {character.mass}</p>
-              <p><strong>Hair Color:</strong> {character.hair_color}</p>
-              <p><strong>Skin Color:</strong> {character.skin_color}</p>
-              <p><strong>Eye Color:</strong> {character.eye_color}</p>
-              <p><strong>Birth Year:</strong> {character.birth_year}</p>
-              <p><strong>Gender:</strong> {character.gender}</p>
-              <p><strong>Homeworld:</strong> <a href={character.homeworld}>Link</a></p>
-              <p><strong>Films:</strong> {character.films.join(", ")}</p>
-              <p><strong>Species:</strong> {character.species.join(", ")}</p>
-              <p><strong>Vehicles:</strong> {character.vehicles.join(", ")}</p>
-              <p><strong>Starships:</strong> {character.starships.join(", ")}</p>
-              <p><strong>Created:</strong> {new Date(character.created).toLocaleString()}</p>
-              <p><strong>Edited:</strong> {new Date(character.edited).toLocaleString()}</p>
-              <p><strong>URL:</strong> <a href={character.url}>Link</a></p>
+              <p>
+                <strong>Height:</strong> {character.height}
+              </p>
+              <p>
+                <strong>Mass:</strong> {character.mass}
+              </p>
+              <p>
+                <strong>Hair Color:</strong> {character.hair_color}
+              </p>
+              <p>
+                <strong>Skin Color:</strong> {character.skin_color}
+              </p>
+              <p>
+                <strong>Eye Color:</strong> {character.eye_color}
+              </p>
+              <p>
+                <strong>Birth Year:</strong> {character.birth_year}
+              </p>
+              <p>
+                <strong>Gender:</strong> {character.gender}
+              </p>
+              <p>
+                <strong>Homeworld:</strong>{" "}
+                <a href={character.homeworld}>Link</a>
+              </p>
+              <p>
+                <strong>Films:</strong> {character.films.join(", ")}
+              </p>
+              <p>
+                <strong>Species:</strong> {character.species.join(", ")}
+              </p>
+              <p>
+                <strong>Vehicles:</strong> {character.vehicles.join(", ")}
+              </p>
+              <p>
+                <strong>Starships:</strong> {character.starships.join(", ")}
+              </p>
+              <p>
+                <strong>Created:</strong>{" "}
+                {new Date(character.created).toLocaleString()}
+              </p>
+              <p>
+                <strong>Edited:</strong>{" "}
+                {new Date(character.edited).toLocaleString()}
+              </p>
             </li>
           ))}
         </ul>
