@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Paper } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import "../../../../assets/styles/peopleList.css";
-import "../../../../assets/styles/index.css"
+import "../../../../assets/styles/index.css";
 
 interface Character {
   name: string;
@@ -50,70 +50,53 @@ const PeopleList: React.FC = () => {
 
   if (loading) {
     return (
-      <Box className="flex justify-center items-center flex-col gap-2"
-      >
+      <Box className="flex justify-center items-center flex-col gap-2">
         <span className="loader"></span>
-        <h1 className="text-3xl font-bold">Caregando...</h1>
+        <h1 className="text-3xl font-bold">Loading...</h1>
       </Box>
     );
   }
 
   return (
     <Box>
-      <Paper id="paper">
-        <h1>Lista de personagens</h1>
-        <ul>
+      <Paper id="paper" className="p-6 gap-8">
+        <Typography variant="h4" className="mb-4 text-yellowSW"><strong>LIST OF CHARACTERS</strong></Typography>
+        <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {characters.map((character) => (
-            <li key={character.name}>
-              <h2>{character.name}</h2>
-              <p>
-                <strong>Height:</strong> {character.height}
-              </p>
-              <p>
-                <strong>Mass:</strong> {character.mass}
-              </p>
-              <p>
-                <strong>Hair Color:</strong> {character.hair_color}
-              </p>
-              <p>
-                <strong>Skin Color:</strong> {character.skin_color}
-              </p>
-              <p>
-                <strong>Eye Color:</strong> {character.eye_color}
-              </p>
-              <p>
-                <strong>Birth Year:</strong> {character.birth_year}
-              </p>
-              <p>
-                <strong>Gender:</strong> {character.gender}
-              </p>
-              <p>
-                <strong>Homeworld:</strong>{" "}
-                <a href={character.homeworld}>Link</a>
-              </p>
-              <p>
-                <strong>Films:</strong> {character.films.join(", ")}
-              </p>
-              <p>
-                <strong>Species:</strong> {character.species.join(", ")}
-              </p>
-              <p>
-                <strong>Vehicles:</strong> {character.vehicles.join(", ")}
-              </p>
-              <p>
-                <strong>Starships:</strong> {character.starships.join(", ")}
-              </p>
-              <p>
-                <strong>Created:</strong>{" "}
-                {new Date(character.created).toLocaleString()}
-              </p>
-              <p>
-                <strong>Edited:</strong>{" "}
-                {new Date(character.edited).toLocaleString()}
-              </p>
-            </li>
+            <Box
+              key={character.name}
+              className="bg-yellowSW p-4 rounded-lg shadow-md truncate hover:bg-yellowSWHover hover:cursor-pointer text-transform: capitalize"
+            >
+              <Typography variant="h6" className="mb-2">{character.name}</Typography>
+              <Box className="flex justify-center items-center flex-col pt-5 pb-10"
+            >
+              <Typography><strong>Height:</strong> {character.height}</Typography>
+              <Typography><strong>Mass:</strong> {character.mass}</Typography>
+              <Typography><strong>Hair Color:</strong> {character.hair_color}</Typography>
+              <Typography><strong>Skin Color:</strong> {character.skin_color}</Typography>
+              <Typography><strong>Eye Color:</strong> {character.eye_color}</Typography>
+              <Typography><strong>Birth Year:</strong> {character.birth_year}</Typography>
+              <Typography><strong>Gender:</strong> {character.gender}</Typography>
+              <Typography><strong>Homeworld:</strong></Typography>
+              <Button variant="contained">Teste</Button>
+              <Typography><strong>Films:</strong></Typography>
+              <Button variant="contained">Teste</Button>
+              <Typography><strong>Species:</strong></Typography>
+              <Button variant="contained">Teste</Button>
+              <Typography><strong>Vehicles:</strong></Typography>
+              <Button variant="contained">Teste</Button>
+              <Typography><strong>Starships:</strong></Typography>
+              <Button variant="contained">Teste</Button>
+              </Box>
+              <Box className="flex justify-center items-end flex-col"
+            >
+              <Typography sx={{fontSize:"12px"}}><strong>Created:{new Date(character.created).toLocaleString()}</strong></Typography>
+              <Typography sx={{fontSize:"12px"}}><strong>Edited:{new Date(character.edited).toLocaleString()}</strong></Typography>
+              </Box>
+              
+            </Box>
           ))}
-        </ul>
+        </Box>
       </Paper>
     </Box>
   );

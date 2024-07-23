@@ -6,7 +6,7 @@ import starWarsLogo from '../../../assets/images/starWarsLogo.png';
 
 const Home: React.FC = () => {
   return (
-    <Box className="homeContainer">
+    <Box className="flex justify-center items-center flex-col">
       <img src={starWarsLogo} alt="Logo" />
       <PeopleList/>
     </Box>
