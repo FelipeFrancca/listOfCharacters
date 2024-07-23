@@ -29,15 +29,11 @@ section {
   box-shadow: rgba(0, 0, 0, 0.05) 0rem 1.25rem 1.6875rem 0rem;
 }
 
-.homeConteiner {
-  position: relative;
+.homeContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   flex-direction: column;
-  gap: 30px;
-  z-index: 2;
 }
 
 .myContacts {

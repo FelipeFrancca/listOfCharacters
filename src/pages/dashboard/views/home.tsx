@@ -1,17 +1,14 @@
 import React from "react";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import "../../../assets/styles/home.css";
+import PeopleList from "./components/peopleList";
+import starWarsLogo from '../../../assets/images/starWarsLogo.png';
 
 const Home: React.FC = () => {
   return (
-    <Box className="homeConteiner">
-      <Box className="homeConteiner">
-        <Box className="myContacts">
-          <Paper id="paper">
-            <p>teste</p>
-          </Paper>
-        </Box>
-      </Box>
+    <Box className="homeContainer">
+      <img src={starWarsLogo} alt="Logo" />
+      <PeopleList/>
     </Box>
   );
 }
