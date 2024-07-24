@@ -15,7 +15,7 @@ const useAuth = () => {
   }, []);
 
   const login = (username: string, password: string) => {
-    if (username === 'admin' && password === 'password') {
+    if (username === 'admin' && password === '123') {
       setCookie('token', staticToken, 1);
       setIsAuthenticated(true);
       return true;
