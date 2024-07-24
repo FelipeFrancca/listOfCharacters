@@ -34,7 +34,7 @@ export default function NotFound() {
         sx={{ width: "20em" }}
         variant="contained"
         component={Link}
-        to="/home"
+        to="/listOfCharacters"
       >
         Voltar a tela inicial
       </Button>

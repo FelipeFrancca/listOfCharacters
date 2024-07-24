@@ -8,9 +8,9 @@ import Login from "../../pages/login/login";
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/home" />} />
+      <Route path="/" element={<Navigate to="listOfCharacters" />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<Dashboard />}>
+      <Route path="/listOfCharacters" element={<Dashboard />}>
         <Route path="" element={<Home />} />
       </Route>
       <Route path="*" element={<NotFound />} />
