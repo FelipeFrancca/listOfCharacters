@@ -142,6 +142,20 @@ const PeopleList: React.FC = () => {
   }, []);
 
   const openHomeworldDialog = async (homeworldUrl: string) => {
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: 'Not Authenticated',
+        text: 'Please log in to view homeworld details.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
+      return;
+    }
     try {
       const response = await axios.get(homeworldUrl);
       setHomeworld(response.data);
@@ -157,6 +171,20 @@ const PeopleList: React.FC = () => {
   };
 
   const openFilmDialog = async (filmUrls: string[]) => {
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: 'Not Authenticated',
+        text: 'Please log in to view film details.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
+      return;
+    }
     try {
       const filmRequests = filmUrls.map((url) => axios.get(url));
       const filmResponses = await Promise.all(filmRequests);
@@ -188,6 +216,20 @@ const PeopleList: React.FC = () => {
   };
 
   const openVehiclesDialog = async (vehicleUrls: string[]) => {
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: 'Not Authenticated',
+        text: 'Please log in to view vehicle details.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
+      return;
+    }
     try {
       const vehicleRequests = vehicleUrls.map((url) => axios.get(url));
       const vehicleResponses = await Promise.all(vehicleRequests);
