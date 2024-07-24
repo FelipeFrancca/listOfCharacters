@@ -42,7 +42,7 @@ const Login: React.FC = () => {
         variant="outlined"
         />
       <Button variant="contained" color="error" fullWidth onClick={handleLogin}>Login</Button>
-      <Button variant="contained" color="warning" href="../">Voltar</Button>
+      <Button variant="contained" color="warning" href="/listOfCharacters">Voltar</Button>
       {message && <p>{message}</p>}
         </Box>
     </Box>
