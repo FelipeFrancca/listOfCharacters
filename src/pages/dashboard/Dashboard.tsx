@@ -10,7 +10,7 @@ const Dashboard: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/home', { replace: true });
+    navigate('/listOfCharacters', { replace: true });
     window.location.reload();
   };
 
