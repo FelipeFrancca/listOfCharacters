@@ -151,7 +151,7 @@ const PeopleList: React.FC = () => {
         confirmButtonText: 'Login',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/login');
+          navigate('/listOfCharacters/login');
         }
       });
       return;
@@ -180,7 +180,7 @@ const PeopleList: React.FC = () => {
         confirmButtonText: 'Login',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/login');
+          navigate('/listOfCharacters/login');
         }
       });
       return;
@@ -225,7 +225,7 @@ const PeopleList: React.FC = () => {
         confirmButtonText: 'Login',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/login');
+          navigate('/listOfCharacters/login');
         }
       });
       return;
@@ -255,7 +255,7 @@ const PeopleList: React.FC = () => {
         confirmButtonText: 'Login',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/login');
+          navigate('/listOfCharacters/login');
         }
       });
       return;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, Typography, Button } from "@mui/material";
 
 interface Starship {
@@ -35,6 +35,34 @@ interface StarshipsDialogProps {
 }
 
 const StarshipsDialog: React.FC<StarshipsDialogProps> = ({ open, onClose, starships, characters }) => {
+  const [pilotNames, setPilotNames] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    if (starships) {
+      const fetchPilots = async () => {
+        const allPilotUrls = starships.flatMap(starship => starship.pilots);
+        const uniquePilotUrls = Array.from(new Set(allPilotUrls));
+
+        const pilotPromises = uniquePilotUrls.map(async (pilotUrl) => {
+          const response = await fetch(pilotUrl);
+          const data = await response.json();
+          const pilotId = parseInt(pilotUrl.split("/").filter(Boolean).pop() || "0", 10);
+          return { id: pilotId, name: data.name };
+        });
+
+        const pilotsData = await Promise.all(pilotPromises);
+        setPilotNames(pilotsData);
+      };
+
+      fetchPilots();
+    }
+  }, [starships]);
+
+  const getPilotName = (pilotId: number) => {
+    const pilot = pilotNames.find(pilot => pilot.id === pilotId);
+    return pilot ? pilot.name : `Pilot ${pilotId}`;
+  };
+
   if (!starships) return null;
 
   return (
@@ -57,10 +85,9 @@ const StarshipsDialog: React.FC<StarshipsDialogProps> = ({ open, onClose, starsh
             <Typography><strong>MGLT:</strong> {starship.MGLT}</Typography>
             <Typography><strong>Starship Class:</strong> {starship.starship_class}</Typography>
             <Typography><strong>Pilots:</strong></Typography>
-            {starship.pilots.map((characterUrl) => {
-              const characterId = parseInt(characterUrl.split("/").filter(Boolean).pop() || "0", 10);
-              const character = characters.find((char) => char.id === characterId);
-              return <Typography key={characterId}>{character ? character.name : `Character ${characterId}`}</Typography>;
+            {starship.pilots.map((pilotUrl) => {
+              const pilotId = parseInt(pilotUrl.split("/").filter(Boolean).pop() || "0", 10);
+              return <Typography key={pilotId}>{getPilotName(pilotId)}</Typography>;
             })}
           </div>
         ))}

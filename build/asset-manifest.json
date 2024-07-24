@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/listOfCharacters/static/css/main.3fbb267f.css",
-    "main.js": "/listOfCharacters/static/js/main.e65d7f9a.js",
+    "main.js": "/listOfCharacters/static/js/main.b158b9d0.js",
     "static/js/453.39e8ac94.chunk.js": "/listOfCharacters/static/js/453.39e8ac94.chunk.js",
     "static/media/starWarsLogo.png": "/listOfCharacters/static/media/starWarsLogo.06ad3c278dbe6096c130.png",
     "static/media/roboto-latin-500-normal.woff2": "/listOfCharacters/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
@@ -62,11 +62,11 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/listOfCharacters/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/listOfCharacters/index.html",
     "main.3fbb267f.css.map": "/listOfCharacters/static/css/main.3fbb267f.css.map",
-    "main.e65d7f9a.js.map": "/listOfCharacters/static/js/main.e65d7f9a.js.map",
+    "main.b158b9d0.js.map": "/listOfCharacters/static/js/main.b158b9d0.js.map",
     "453.39e8ac94.chunk.js.map": "/listOfCharacters/static/js/453.39e8ac94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3fbb267f.css",
-    "static/js/main.e65d7f9a.js"
+    "static/js/main.b158b9d0.js"
   ]
 }

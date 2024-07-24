@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, Typography, Button } from "@mui/material";
 
 interface Film {
@@ -46,7 +46,35 @@ interface FilmDialogProps {
 }
 
 const FilmDialog: React.FC<FilmDialogProps> = ({ open, onClose, films, characters }) => {
+  const [characterNames, setCharacterNames] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    if (films) {
+      const fetchCharacters = async () => {
+        const allCharacterUrls = films.flatMap(film => film.characters);
+        const uniqueCharacterUrls = Array.from(new Set(allCharacterUrls));
+
+        const characterPromises = uniqueCharacterUrls.map(async (characterUrl) => {
+          const response = await fetch(characterUrl);
+          const data = await response.json();
+          const characterId = parseInt(characterUrl.split("/").filter(Boolean).pop() || "0", 10);
+          return { id: characterId, name: data.name };
+        });
+
+        const charactersData = await Promise.all(characterPromises);
+        setCharacterNames(charactersData);
+      };
+
+      fetchCharacters();
+    }
+  }, [films]);
+
   if (!films) return null;
+
+  const getCharacterName = (characterId: number) => {
+    const character = characterNames.find(char => char.id === characterId);
+    return character ? character.name : `Character ${characterId}`;
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -63,8 +91,7 @@ const FilmDialog: React.FC<FilmDialogProps> = ({ open, onClose, films, character
             <Typography><strong>Characters:</strong></Typography>
             {film.characters.map((characterUrl) => {
               const characterId = parseInt(characterUrl.split("/").filter(Boolean).pop() || "0", 10);
-              const character = characters.find((char) => char.id === characterId);
-              return <Typography key={characterId}>{character ? character.name : `Character ${characterId}`}</Typography>;
+              return <Typography key={characterId}>{getCharacterName(characterId)}</Typography>;
             })}
           </div>
         ))}

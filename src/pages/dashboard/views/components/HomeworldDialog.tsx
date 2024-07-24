@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, Typography, Button } from "@mui/material";
 
 interface Homeworld {
@@ -46,6 +46,26 @@ interface HomeworldDialogProps {
 }
 
 const HomeworldDialog: React.FC<HomeworldDialogProps> = ({ open, onClose, homeworld, characters }) => {
+  const [residents, setResidents] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    if (homeworld) {
+      const fetchResidents = async () => {
+        const residentPromises = homeworld.residents.map(async (residentUrl) => {
+          const response = await fetch(residentUrl);
+          const data = await response.json();
+          const residentId = parseInt(residentUrl.split("/").filter(Boolean).pop() || "0", 10);
+          return { id: residentId, name: data.name };
+        });
+
+        const residentsData = await Promise.all(residentPromises);
+        setResidents(residentsData);
+      };
+
+      fetchResidents();
+    }
+  }, [homeworld]);
+
   if (!homeworld) return null;
 
   return (
@@ -61,11 +81,9 @@ const HomeworldDialog: React.FC<HomeworldDialogProps> = ({ open, onClose, homewo
         <Typography><strong>Surface Water:</strong> {homeworld.surface_water}</Typography>
         <Typography><strong>Population:</strong> {homeworld.population}</Typography>
         <Typography><strong>Residents:</strong></Typography>
-        {homeworld.residents.map((residentUrl) => {
-          const residentId = parseInt(residentUrl.split("/").filter(Boolean).pop() || "0", 10);
-          const resident = characters.find((char) => char.id === residentId);
-          return <Typography key={residentId}>{resident ? resident.name : `Resident ${residentId}`}</Typography>;
-        })}
+        {residents.map((resident) => (
+          <Typography key={resident.id}>{resident.name}</Typography>
+        ))}
         <Button variant="contained" onClick={onClose} color="error" fullWidth>Close</Button>
       </DialogContent>
     </Dialog>

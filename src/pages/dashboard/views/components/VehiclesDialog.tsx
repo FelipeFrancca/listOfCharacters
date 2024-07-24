@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, Typography, Button } from "@mui/material";
 
 interface Vehicle {
@@ -33,6 +33,34 @@ interface VehiclesDialogProps {
 }
 
 const VehiclesDialog: React.FC<VehiclesDialogProps> = ({ open, onClose, vehicles, characters }) => {
+  const [pilotNames, setPilotNames] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    if (vehicles) {
+      const fetchPilots = async () => {
+        const allPilotUrls = vehicles.flatMap(vehicle => vehicle.pilots);
+        const uniquePilotUrls = Array.from(new Set(allPilotUrls));
+
+        const pilotPromises = uniquePilotUrls.map(async (pilotUrl) => {
+          const response = await fetch(pilotUrl);
+          const data = await response.json();
+          const pilotId = parseInt(pilotUrl.split("/").filter(Boolean).pop() || "0", 10);
+          return { id: pilotId, name: data.name };
+        });
+
+        const pilotsData = await Promise.all(pilotPromises);
+        setPilotNames(pilotsData);
+      };
+
+      fetchPilots();
+    }
+  }, [vehicles]);
+
+  const getPilotName = (pilotId: number) => {
+    const pilot = pilotNames.find(pilot => pilot.id === pilotId);
+    return pilot ? pilot.name : `Pilot ${pilotId}`;
+  };
+
   if (!vehicles) return null;
 
   return (
@@ -53,10 +81,9 @@ const VehiclesDialog: React.FC<VehiclesDialogProps> = ({ open, onClose, vehicles
             <Typography><strong>Consumables:</strong> {vehicle.consumables}</Typography>
             <Typography><strong>Vehicle Class:</strong> {vehicle.vehicle_class}</Typography>
             <Typography><strong>Pilots:</strong></Typography>
-            {vehicle.pilots.map((characterUrl) => {
-              const characterId = parseInt(characterUrl.split("/").filter(Boolean).pop() || "0", 10);
-              const character = characters.find((char) => char.id === characterId);
-              return <Typography key={characterId}>{character ? character.name : `Character ${characterId}`}</Typography>;
+            {vehicle.pilots.map((pilotUrl) => {
+              const pilotId = parseInt(pilotUrl.split("/").filter(Boolean).pop() || "0", 10);
+              return <Typography key={pilotId}>{getPilotName(pilotId)}</Typography>;
             })}
           </div>
         ))}

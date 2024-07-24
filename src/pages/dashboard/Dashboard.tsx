@@ -15,7 +15,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate('/listOfCharacters/login');
   };
 
   return (

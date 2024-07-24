@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, Typography, Button } from "@mui/material";
 
 interface Species {
@@ -32,6 +32,31 @@ interface SpeciesDialogProps {
 }
 
 const SpeciesDialog: React.FC<SpeciesDialogProps> = ({ open, onClose, species, characters }) => {
+  const [characterNames, setCharacterNames] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    if (species) {
+      const fetchCharacters = async () => {
+        const characterPromises = species.people.map(async (characterUrl) => {
+          const response = await fetch(characterUrl);
+          const data = await response.json();
+          const characterId = parseInt(characterUrl.split("/").filter(Boolean).pop() || "0", 10);
+          return { id: characterId, name: data.name };
+        });
+
+        const charactersData = await Promise.all(characterPromises);
+        setCharacterNames(charactersData);
+      };
+
+      fetchCharacters();
+    }
+  }, [species]);
+
+  const getCharacterName = (characterId: number) => {
+    const character = characterNames.find(char => char.id === characterId);
+    return character ? character.name : `Character ${characterId}`;
+  };
+
   if (!species) return null;
 
   return (
@@ -50,8 +75,7 @@ const SpeciesDialog: React.FC<SpeciesDialogProps> = ({ open, onClose, species, c
         <Typography><strong>Characters:</strong></Typography>
         {species.people.map((characterUrl) => {
           const characterId = parseInt(characterUrl.split("/").filter(Boolean).pop() || "0", 10);
-          const character = characters.find((char) => char.id === characterId);
-          return <Typography key={characterId}>{character ? character.name : `Character ${characterId}`}</Typography>;
+          return <Typography key={characterId}>{getCharacterName(characterId)}</Typography>;
         })}
         <Button variant="contained" onClick={onClose} color="error" fullWidth>Close</Button>
       </DialogContent>
