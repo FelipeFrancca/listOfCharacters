@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Button, Paper, Typography, CircularProgress } from "@mui/material";
-import Swal from "sweetalert2";
+import { Box, Button, Paper, Typography} from "@mui/material";
 import HomeworldDialog from "./HomeworldDialog";
 import FilmDialog from "./FilmDialog";
 import SpeciesDialog from "./SpeciesDialog";
 import VehiclesDialog from "./VehiclesDialog";
 import StarshipsDialog from "./StarshipsDialog";
+import Swal from 'sweetalert2';
+import useAuth from '../../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import "../../../../assets/styles/peopleList.css";
 import "../../../../assets/styles/index.css";
 
@@ -106,6 +108,8 @@ interface Starship {
 }
 
 const PeopleList: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
   const [homeworldDialogOpen, setHomeworldDialogOpen] = useState(false);
@@ -200,6 +204,20 @@ const PeopleList: React.FC = () => {
   };
 
   const openStarshipsDialog = async (starshipUrls: string[]) => {
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: 'Not Authenticated',
+        text: 'Please log in to view starships.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
+      return;
+    }
     try {
       const starshipRequests = starshipUrls.map((url) => axios.get(url));
       const starshipResponses = await Promise.all(starshipRequests);
