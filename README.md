@@ -2,6 +2,8 @@
 # ListOfCharacters
 
 ListOfCharacters é um projeto desenvolvido para fazer a leitura de uma API e apresentar cards com as informações recebidas. Ele também possui um sistema de login com dados mocados para experimentar partes do front-end que só podem ser acessadas com autenticação.
+Link para o pojeto no ar: https://felipefrancca.github.io/listOfCharacters/
+![image](https://github.com/user-attachments/assets/208b2058-73d9-4a6d-bd24-5d205ff8c3f7)
 
 ## Índice
 
